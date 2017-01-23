@@ -1,19 +1,30 @@
 package com.edu.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 //import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ListIterator;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.edu.model.Register;
 import com.edu.model.UserAppointments;
@@ -49,8 +60,33 @@ import com.edu.service.ClinicERPService;
 @RequestMapping("/data")
 public class ClinicERPController {
 
+	final static Logger logger = Logger.getLogger(ClinicERPController.class);
+	
 	@Autowired
 	private ClinicERPService clinicErpService;
+	
+	@RequestMapping(value = "/executefile")
+	public @ResponseBody String executeSampleService(@RequestBody MultipartFile file) throws IOException {
+		System.out.println("in");
+	    
+		if (file.isEmpty()) {
+			System.out.println("nithun");
+		}
+		else{
+		        System.out.println("inyo");
+				byte[] bytes = file.getBytes();
+				System.out.println("read " + bytes.length + " bytes.");
+				System.out.println(Arrays.toString(bytes));
+		}
+		    return null;
+		}
+	
+	@RequestMapping("/getSample")
+	public @ResponseBody String getSample(){
+		logger.fatal("samples");
+		String s1=clinicErpService.getSample();
+		return s1;
+	}
 	
 	@RequestMapping("/register")
 	public @ResponseBody String register(@RequestBody RegisterVO registerVO) {
